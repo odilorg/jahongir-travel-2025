@@ -14,6 +14,7 @@ use Filament\Forms\Form;
 use App\Models\Restaurant;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Dompdf\FrameDecorator\Text;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 use Filament\Forms\Components\Tabs;
@@ -24,6 +25,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\TourResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TourResource\RelationManagers;
@@ -49,6 +51,29 @@ class TourResource extends Resource
                             ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                             TextInput::make('slug')
                             ->readOnly(),
+                        
+                        TextInput::make('start_from_city')
+                            ->label('Город отправления')
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('city_slug', Str::slug($state))),
+                            TextInput::make('city_slug')
+                            ->label('Город')
+                            ->readOnly(),
+                       Select::make('categories')
+                            ->label('Категории')
+                            ->relationship('categories', 'name')
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required(),
+                                    
+                                Forms\Components\TextInput::make('description')
+                                 //   ->required(),
+                                    
+                            ])
+                            ->multiple()
+                            ->required()
+                            ->preload(),            
                            // ->hidden(),
                         // TextInput::make('number_people')
                         //     ->label('Количество человек')
@@ -147,7 +172,24 @@ class TourResource extends Resource
                             ->default(fn(Get $get) => $get('id') ? \App\Models\City::whereHas('tourDays', fn($q) => $q->where('tour_days.id', $get('id')))->pluck('id') : []) // Fetch cities based on the TourDay ID
                             ->required()
                             ->preload(),
-                        
+                            Section::make('Маршрут дня')
+                            // ->description('Prevent abuse by limiting the number of requests per period')
+                             ->schema([
+                                 Repeater::make('itineraries')
+                                     ->label('Маршрут')
+                                     ->schema([
+                                        TextInput::make('time')
+                                        ->label('Время')
+                                        ->required(),
+                                         Forms\Components\TextInput::make('title')
+                                             ->label('Название')
+                                             ->required(),
+                                             MarkdownEditor::make('description')
+                                             ->label('Описание')
+                                             ->required(),
+                                           
+                                     ]),
+                             ]),
 
                           Section::make('Гид и цена')
                            // ->description('Prevent abuse by limiting the number of requests per period')
@@ -165,10 +207,10 @@ class TourResource extends Resource
                                     'halfday' => 'Полдня',
                                     'per_daily' => 'За день',
                                 ])
-                                ->required()
+                              //  ->required()
                             ]),
                         
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\MarkdownEditor::make('description')
                             ->label('Описание'),
                         Forms\Components\FileUpload::make('image')
                             ->label('Изображение дня')

@@ -20,9 +20,16 @@ class TourDay extends Model
          'restaurant_id',
          'type',
          'image',
-         'price_type_name'
+         'price_type_name',
+         'itineraries',
         
     ];
+    protected $casts = [
+        'itineraries' => 'array',
+    ];
+
+
+
 
     public function tour()
     {

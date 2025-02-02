@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cities', function (Blueprint $table) {
-            $table->string('slug')->unique();
+        Schema::create('tour_tour_category', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tour_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('tour_category_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cities', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('tour_tour_category');
     }
 };

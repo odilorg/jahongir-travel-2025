@@ -5,10 +5,13 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\City;
 use Filament\Tables;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
@@ -16,7 +19,6 @@ use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\CityResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CityResource\RelationManagers;
-
 
 class CityResource extends Resource
 {
@@ -34,7 +36,12 @@ class CityResource extends Resource
                 Forms\Components\TextInput::make('name')
                 ->label('Название города')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                TextInput::make('slug')
+                ->label('Slug')
+                ->readOnly(),    
                 Forms\Components\Textarea::make('description')
                 ->label('Описание города')
                     ->maxLength(555)

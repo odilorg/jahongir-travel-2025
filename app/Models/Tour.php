@@ -20,10 +20,16 @@ class Tour extends Model
         'tour_excludes',
         'tour_prices',
         'tour_photos',
-        'slug'
+        'slug',
+        'start_from_city',
+        'city_slug',
         
     ];
 
+    public function categories()
+    {
+        return $this->belongsToMany(TourCategory::class, 'tour_tour_category');
+    }
     protected $casts = [
         'tour_includes' => 'array',
         'tour_excludes' => 'array',
