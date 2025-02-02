@@ -48,46 +48,78 @@ class TourResource extends Resource
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('tour_number', Str::slug($state))),
 
-                        TextInput::make('number_people')
-                            ->label('Количество человек')
-                            ->numeric()
-                            ->required(),
+                        // TextInput::make('number_people')
+                        //     ->label('Количество человек')
+                        //     ->numeric()
+                        //     ->required(),
 
-                        Forms\Components\DatePicker::make('start_date')
-                            ->label('Дата начала')
-                            ->required()
-                            ->before('end_date')
-                            ->live(),
+                        // Forms\Components\DatePicker::make('start_date')
+                        //     ->label('Дата начала')
+                        //     ->required()
+                        //     ->before('end_date')
+                        //     ->live(),
 
-                        Forms\Components\DatePicker::make('end_date')
-                            ->label('Дата окончания')
-                            ->required()
-                            ->live()
-                            ->afterStateUpdated(function (callable $set, $state, $get) {
-                                $startDate = $get('start_date');
-                                $endDate = $get('end_date');
-                                if ($startDate && $endDate) {
-                                    $duration = \Carbon\Carbon::parse($startDate)->diffInDays(\Carbon\Carbon::parse($endDate)) + 1;
-                                    $set('tour_duration', $duration);
-                                }
-                            }),
+                        // Forms\Components\DatePicker::make('end_date')
+                        //     ->label('Дата окончания')
+                        //     ->required()
+                        //     ->live()
+                        //     ->afterStateUpdated(function (callable $set, $state, $get) {
+                        //         $startDate = $get('start_date');
+                        //         $endDate = $get('end_date');
+                        //         if ($startDate && $endDate) {
+                        //             $duration = \Carbon\Carbon::parse($startDate)->diffInDays(\Carbon\Carbon::parse($endDate)) + 1;
+                        //             $set('tour_duration', $duration);
+                        //         }
+                        //     }),
 
                         Forms\Components\Textarea::make('description')
                             ->label('Описание')
                             ->required(),
 
                         Forms\Components\TextInput::make('tour_duration')
-                            ->label('Длительность тура')
-                            ->required()
-                            ->suffix('дней')
-                            ->readOnly()
-                            ->default(0),
-                        Forms\Components\FileUpload::make('image')
-                            ->label('Изображение тура')
-                            ->image(),
+                            ->label('Длительность тура'),
+                         Forms\Components\TextInput::make('departure_return_location')
+                            ->label('Место отправления/возвращения')
+                            ->required(),   
+                        Forms\Components\TextInput::make('departure_time')  
+                            ->label('Время отправления')
+                            ->required(),
+                        Repeater::make('tour_includes')
+                            ->label('Что включено в тур')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Включено')
+                                    ->required(),
+                            ])
+                            ->columns(2),
+                            Repeater::make('tour_excludes')
+                            ->label('Что не включено в тур')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Не включено')
+                                    ->required(),
+                            ])  
+                            ->columns(2),
+                            Repeater::make('tour_prices')
+                            ->label('Цены')
+                            ->schema([
+                                Forms\Components\TextInput::make('number_people')
+                                    ->label('Количество человек')
+                                    ->required(),
+                               Forms\Components\TextInput::make('price')
+                                    ->label('Цена')
+                                    ->required(),     
+                            ])
+                            ->columns(2),       
+                        Forms\Components\FileUpload::make('tour_photos')
+                            ->label('Изображения тура для галлереи')
+                           // ->image()
+                            ->multiple()
+                            ->maxFiles(6),
+                           // ->maxSize(10024),
                         Forms\Components\FileUpload::make('tour_file')
-                            ->label('Файл тура')
-                            ->maxSize(10024),
+                            ->label('Файл тура'),
+                            //->maxSize(10024),
 
 
                         Forms\Components\Hidden::make('tour_number'),
@@ -115,8 +147,8 @@ class TourResource extends Resource
                             ->preload(),
                         
 
-                          Section::make('Rate limiting')
-                            ->description('Prevent abuse by limiting the number of requests per period')
+                          Section::make('Гид и цена')
+                           // ->description('Prevent abuse by limiting the number of requests per period')
                             ->schema([
                                 Forms\Components\Select::make('guide_id')
                                 ->label('Гид')

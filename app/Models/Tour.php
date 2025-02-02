@@ -13,8 +13,23 @@ class Tour extends Model
      'start_date',
      'end_date',
      'image',
-     'tour_file'
+     'tour_file',
+        'departure_return_location',
+        'departure_time',
+        'tour_includes',
+        'tour_excludes',
+        'tour_prices',
+        'tour_photos',
+        
     ];
+
+    protected $casts = [
+        'tour_includes' => 'array',
+        'tour_excludes' => 'array',
+        'tour_prices' => 'array',
+        'tour_photos' => 'array',
+    ];
+
 
     public function tourDays(): HasMany
     {
