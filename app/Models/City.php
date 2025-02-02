@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class City extends Model
 {
-    protected $fillable = ['name', 'description', 'images'];
+    protected $fillable = ['name', 'description', 'images', 'slug'];
 
     protected $casts = [
         'images' => 'array',

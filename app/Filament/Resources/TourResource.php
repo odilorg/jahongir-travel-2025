@@ -46,8 +46,10 @@ class TourResource extends Resource
                             ->label('Название')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('tour_number', Str::slug($state))),
-
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                            TextInput::make('slug')
+                            ->readOnly(),
+                           // ->hidden(),
                         // TextInput::make('number_people')
                         //     ->label('Количество человек')
                         //     ->numeric()

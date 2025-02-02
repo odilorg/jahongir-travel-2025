@@ -20,6 +20,7 @@ class Tour extends Model
         'tour_excludes',
         'tour_prices',
         'tour_photos',
+        'slug'
         
     ];
 
