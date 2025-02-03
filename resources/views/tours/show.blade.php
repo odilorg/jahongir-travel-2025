@@ -416,7 +416,7 @@
 															</tr>
 															<tr>
 																<td>
-																	<a href="tours/day-tour-shahrisabz.pdf"><img src="../images/pdf-download.png" alt="pdf-file-download">Day tour to Shahrisabz</a>
+																	<a href="{{ Storage::url($tour->tour_file) }}"><img src="{{ asset('images/pdf-download.png') }}" alt="pdf-file-download">Day tour to Shahrisabz</a>
 																</td>
 															</tr>
 														</tbody>
@@ -484,7 +484,7 @@
 								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab" id="tab-location_tab">
 
 									<div>
-										<iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d541482.7530825941!2d65.98429346664294!3d39.49305353091317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x3f4d18b454a40ec5%3A0x975a59209af77710!2s%234+Chirokchi+str.+Chirokchi+Street%2C+Samarqand%2C+Uzbekistan!3m2!1d39.649977!2d66.977987!4m5!1s0x3f4c9aa35638ab11%3A0xc2a494e199b7b4b0!2sShahrisabz%2C+Uzbekistan!3m2!1d39.0537978!2d66.82010919999999!5e0!3m2!1sen!2s!4v1558878111565!5m2!1sen!2s" width="800" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+										<iframe src="{{ $tour->location }}" width="800" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 									</div>
 
@@ -496,106 +496,21 @@
 										<div class="tz-gallery">
 											<h3 class="caption2">Shahrisabz tour Gallery</h3>
 											<div class="row">
-
+												@foreach ($tour->tour_photos as $photo )
 												<div class="col-sm-6 col-md-4">
 													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/on-way-shahrisabz-pass.jpg">
-															<img src="images/shahrisabz/on-way-shahrisabz-pass.jpg" alt="on-way-shahrisabz-pass">
+														<a class="lightbox" href="{{ Storage::url($photo["photo"]) }}">
+															<img src="{{ Storage::url($photo["photo"]) }}" alt="on-way-shahrisabz-pass">
 														</a>
 														<div class="caption">
-															<h3>Road to Pass to Shahrisabz </h3>
+															<h3>{{ $photo["photo_description"] }} </h3>
 
 														</div>
 													</div>
 												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/stone-hole-teshik-tash-shahrisabz.jpg">
-															<img src="images/shahrisabz/stone-hole-teshik-tash-shahrisabz.jpg" alt="stone-hole-teshik-tosh-shahrisabz">
-														</a>
-														<div class="caption">
-															<h3>"Apachen" movie scene</h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/teshik-tosh-rock-with-hole-aman-kutan.jpg">
-															<img src="images/shahrisabz/teshik-tosh-rock-with-hole-aman-kutan.jpg" alt="teshik-tosh-rock-with-hole-aman-kutan">
-														</a>
-														<div class="caption">
-															<h3>Teshik Tosh "Rock with hole" </h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/tahtakaracha-pass.jpg">
-															<img src="images/shahrisabz/tahtakaracha-pass.jpg" alt="tahtakaracha-pass">
-														</a>
-														<div class="caption">
-															<h3>Kashkadarya side of the Pass</h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/mountain-pass-tahtakaracha-shahrisabz.jpg">
-															<img src="images/shahrisabz/mountain-pass-tahtakaracha-shahrisabz.jpg" alt="mountain-pass-tahtakaracha-shahrisabz">
-														</a>
-														<div class="caption">
-															<h3>Mountain pass Tahtakaracha </h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/mosque-inside-dorus-siadat-shahrisabz.jpg">
-															<img src="images/shahrisabz/mosque-inside-dorus-siadat-shahrisabz.jpg" alt="mosque-inside-dorus-siadat-shahrisabz">
-														</a>
-														<div class="caption">
-															<h3>Mosque Dorus Siadat</h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/dorus-tilavat-kok-gumbaz-shahrisabz.jpg">
-															<img src="images/shahrisabz/dorus-tilavat-kok-gumbaz-shahrisabz.jpg" alt="kok-gumbaz-built-ulugbek-father-timur">
-														</a>
-														<div class="caption">
-															<h3>Kok Gumbaz in Shahrisabz</h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/dorus-siadat-shahrisabz.jpg">
-															<img src="images/shahrisabz/dorus-siadat-shahrisabz.jpg" alt="mausoleum-jahangir-shahrisabz">
-														</a>
-														<div class="caption">
-															<h3>Dorus Siadat complex in Shahrisabz</h3>
-
-														</div>
-													</div>
-												</div>
-												<div class="col-sm-6 col-md-4">
-													<div class="thumbnail">
-														<a class="lightbox" href="images/shahrisabz/amir-temur-statue-shahrisabz-ak-saray.jpg">
-															<img src="images/shahrisabz/amir-temur-statue-shahrisabz-ak-saray.jpg" alt="amir-temur-palace-ak-saray-statue">
-														</a>
-														<div class="caption">
-															<h3>Amir Temur Statue in Shahrisabz</h3>
-
-														</div>
-													</div>
-												</div>
+												@endforeach
+												
+												
 
 											</div>
 

@@ -111,6 +111,9 @@ class TourResource extends Resource
                         Forms\Components\TextInput::make('departure_time')  
                             ->label('Время отправления')
                             ->required(),
+                         TextInput::make('location')
+                            ->label('Местоположение')
+                            ->required(),   
                         Repeater::make('tour_includes')
                             ->label('Что включено в тур')
                             ->schema([
@@ -137,15 +140,24 @@ class TourResource extends Resource
                                     ->label('Цена')
                                     ->required(),     
                             ])
-                            ->columns(2),       
-                        Forms\Components\FileUpload::make('tour_photos')
-                            ->label('Изображения тура для галлереи')
-                           // ->image()
-                            ->multiple()
-                            ->maxFiles(6),
+                            ->columns(2), 
+                        Repeater::make('tour_photos')
+                            ->label('Галлерея')
+                            ->schema([
+                                Forms\Components\FileUpload::make('photo')
+                                ->label('Изображения тура для галлереи')
+                                ->image(),
+                                //->multiple()
+                               // ->maxFiles(6),
+                                TextInput::make('photo_description')
+                                ->label('Описание фото')
+                            ])
+                            ->columns(2),          
+                       
                            // ->maxSize(10024),
                         Forms\Components\FileUpload::make('tour_file')
-                            ->label('Файл тура'),
+                            ->label('Файл тура')
+                            ->directory('tours'),
                             //->maxSize(10024),
 
 

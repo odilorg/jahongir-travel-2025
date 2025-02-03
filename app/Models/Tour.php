@@ -23,6 +23,7 @@ class Tour extends Model
         'slug',
         'start_from_city',
         'city_slug',
+        'location',
         
     ];
 
