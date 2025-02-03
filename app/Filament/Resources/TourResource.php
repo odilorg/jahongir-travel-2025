@@ -48,33 +48,33 @@ class TourResource extends Resource
                             ->label('Название')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                            TextInput::make('slug')
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                        TextInput::make('slug')
                             ->readOnly(),
-                        
+
                         TextInput::make('start_from_city')
                             ->label('Город отправления')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('city_slug', Str::slug($state))),
-                            TextInput::make('city_slug')
-                            ->label('Город')
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('city_slug', Str::slug($state))),
+                        TextInput::make('city_slug')
+                            ->label('City Slug')
                             ->readOnly(),
-                       Select::make('categories')
-                            ->label('Категории')
+                        Select::make('categories')
+                            ->label('Категории Тура')
                             ->relationship('categories', 'name')
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('name')
                                     ->required(),
-                                    
+
                                 Forms\Components\TextInput::make('description')
-                                 //   ->required(),
-                                    
+                                //   ->required(),
+
                             ])
                             ->multiple()
                             ->required()
-                            ->preload(),            
-                           // ->hidden(),
+                            ->preload(),
+                        // ->hidden(),
                         // TextInput::make('number_people')
                         //     ->label('Количество человек')
                         //     ->numeric()
@@ -98,67 +98,101 @@ class TourResource extends Resource
                         //             $set('tour_duration', $duration);
                         //         }
                         //     }),
-
-                        Forms\Components\Textarea::make('description')
-                            ->label('Описание')
-                            ->required(),
-
                         Forms\Components\TextInput::make('tour_duration')
                             ->label('Длительность тура'),
-                         Forms\Components\TextInput::make('departure_return_location')
+                        
+
+
+                        Forms\Components\TextInput::make('departure_return_location')
                             ->label('Место отправления/возвращения')
-                            ->required(),   
-                        Forms\Components\TextInput::make('departure_time')  
+                            ->required(),
+                        Forms\Components\TextInput::make('departure_time')
                             ->label('Время отправления')
                             ->required(),
-                         TextInput::make('location')
-                            ->label('Местоположение')
-                            ->required(),   
-                        Repeater::make('tour_includes')
-                            ->label('Что включено в тур')
-                            ->schema([
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Включено')
-                                    ->required(),
-                            ])
-                            ->columns(2),
-                            Repeater::make('tour_excludes')
-                            ->label('Что не включено в тур')
-                            ->schema([
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Не включено')
-                                    ->required(),
-                            ])  
-                            ->columns(2),
-                            Repeater::make('tour_prices')
-                            ->label('Цены')
-                            ->schema([
-                                Forms\Components\TextInput::make('number_people')
-                                    ->label('Количество человек')
-                                    ->required(),
-                               Forms\Components\TextInput::make('price')
-                                    ->label('Цена')
-                                    ->required(),     
-                            ])
-                            ->columns(2), 
-                        Repeater::make('tour_photos')
-                            ->label('Галлерея')
-                            ->schema([
-                                Forms\Components\FileUpload::make('photo')
-                                ->label('Изображения тура для галлереи')
-                                ->image(),
-                                //->multiple()
-                               // ->maxFiles(6),
-                                TextInput::make('photo_description')
-                                ->label('Описание фото')
-                            ])
-                            ->columns(2),          
-                       
-                           // ->maxSize(10024),
+                        TextInput::make('location')
+                            ->label('Местоположение Goole Maps координаты'),
+                            //->required(),
                         Forms\Components\FileUpload::make('tour_file')
                             ->label('Файл тура')
                             ->directory('tours'),
-                            //->maxSize(10024),
+                        //->maxSize(10024),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Описание')
+                            ->required()
+                            ->rows(8)
+                            ->columnSpanFull(),
+                        Tabs::make('Tabs')
+                            ->tabs([
+                                Tabs\Tab::make('Цены Тура')
+                                    ->schema([
+                                        Section::make()
+                                            ->schema([
+                                                Repeater::make('tour_prices')
+                                                    ->label('Цены')
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('number_people')
+                                                            ->label('Количество человек')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('price')
+                                                            ->label('Цена')
+                                                            ->required(),
+                                                    ])
+                                                    ->columns(2)
+                                                    ->columnSpanFull(),
+                                            ]),
+                                    ]),
+                                Tabs\Tab::make('Включено')
+                                    ->schema([
+                                        Repeater::make('tour_includes')
+                                            ->label('Что включено в тур')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label('Включено')
+                                                    ->required(),
+                                            ])
+                                            ->columns(2),
+                                    ]),
+                                Tabs\Tab::make('Не включено')
+                                    ->schema([
+                                        Repeater::make('tour_excludes')
+                                            ->label('Что не включено в тур')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label('Не включено')
+                                                    ->required(),
+                                            ])
+                                            ->columns(2),
+                                    ]),
+                                Tabs\Tab::make('Фото галлерея')
+                                    ->schema([
+                                        Repeater::make('tour_photos')
+                                            ->label('Галлерея')
+                                            ->schema([
+                                                TextInput::make('photo_description')
+                                                    ->label('Описание фото'),
+                                                Forms\Components\FileUpload::make('photo')
+                                                    ->label('Изображения тура для галлереи')
+                                                    ->image(),
+                                                //->multiple()
+                                                // ->maxFiles(6),
+
+                                            ])
+                                            ->columns(2),
+                                    ]),
+                            ])->columnSpanFull(),
+
+
+
+
+
+
+
+
+
+
+
+                        // ->maxSize(10024),
+
 
 
                         Forms\Components\Hidden::make('tour_number'),
@@ -172,11 +206,11 @@ class TourResource extends Resource
                             ->label('Название Дня. Day 1,2 и т.д. добавляется автоматически')
                             ->required(),
 
-                            Select::make('city_id')
+                        Select::make('city_id')
                             ->label('Города')
                             ->relationship('cities', 'name')
                             ->multiple()
-                           // ->live()
+                            // ->live()
                             ->afterStateUpdated(function ($state, callable $set) {
                                 $set('hotel_rooms', []);
                                 $set('restaurant_meal_types', []);
@@ -184,44 +218,44 @@ class TourResource extends Resource
                             ->default(fn(Get $get) => $get('id') ? \App\Models\City::whereHas('tourDays', fn($q) => $q->where('tour_days.id', $get('id')))->pluck('id') : []) // Fetch cities based on the TourDay ID
                             ->required()
                             ->preload(),
-                            Section::make('Маршрут дня')
+                        Section::make('Маршрут дня')
                             // ->description('Prevent abuse by limiting the number of requests per period')
-                             ->schema([
-                                 Repeater::make('itineraries')
-                                     ->label('Маршрут')
-                                     ->schema([
+                            ->schema([
+                                Repeater::make('itineraries')
+                                    ->label('Маршрут')
+                                    ->schema([
                                         TextInput::make('time')
-                                        ->label('Время')
-                                        ->required(),
-                                         Forms\Components\TextInput::make('title')
-                                             ->label('Название')
-                                             ->required(),
-                                             MarkdownEditor::make('description')
-                                             ->label('Описание')
-                                             ->required(),
-                                           
-                                     ]),
-                             ]),
+                                            ->label('Время')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('title')
+                                            ->label('Название')
+                                            ->required(),
+                                        MarkdownEditor::make('description')
+                                            ->label('Описание')
+                                            ->required(),
 
-                          Section::make('Гид и цена')
-                           // ->description('Prevent abuse by limiting the number of requests per period')
+                                    ]),
+                            ]),
+
+                        Section::make('Гид и цена')
+                            // ->description('Prevent abuse by limiting the number of requests per period')
                             ->schema([
                                 Forms\Components\Select::make('guide_id')
-                                ->label('Гид')
-                                ->relationship('guide', 'name', function ($query) {
-                                    $query->where('is_marketing', true);
-                                })
-                                ->searchable()
-                                ->preload(),
+                                    ->label('Гид')
+                                    ->relationship('guide', 'name', function ($query) {
+                                        $query->where('is_marketing', true);
+                                    })
+                                    ->searchable()
+                                    ->preload(),
                                 Select::make('price_type_name')
-                                ->options([
-                                    'pickup_dropoff' => 'Встреча/проводы',
-                                    'halfday' => 'Полдня',
-                                    'per_daily' => 'За день',
-                                ])
-                              //  ->required()
+                                    ->options([
+                                        'pickup_dropoff' => 'Встреча/проводы',
+                                        'halfday' => 'Полдня',
+                                        'per_daily' => 'За день',
+                                    ])
+                                //  ->required()
                             ]),
-                        
+
                         Forms\Components\MarkdownEditor::make('description')
                             ->label('Описание'),
                         Forms\Components\FileUpload::make('image')
@@ -258,7 +292,7 @@ class TourResource extends Resource
                                                             $query->where('category', $category);
                                                         }
                                                     })
-                                                  //  ->required()
+                                                    //  ->required()
                                                     ->preload()
                                                     ->live(),
 
@@ -272,13 +306,13 @@ class TourResource extends Resource
                                                         'economy' => 'Эконом',
                                                         'business' => 'Бизнес',
                                                     ])
-                                                   // ->required()
+                                                    // ->required()
                                                     ->live()
                                                     ->searchable(),
                                             ]),
                                     ]),
 
-                                    Tabs\Tab::make('Отели')
+                                Tabs\Tab::make('Отели')
                                     ->label('Отели')
                                     ->schema([
                                         Repeater::make('tourDayHotels')
@@ -299,7 +333,7 @@ class TourResource extends Resource
                                                         // Clear the selected hotel if type changes
                                                         $set('hotel_id', null);
                                                     }),
-                                
+
                                                 // Hotel field filtered by type and city_id
                                                 Select::make('hotel_id')
                                                     ->label('Отель')
@@ -307,14 +341,14 @@ class TourResource extends Resource
                                                         ->where('type', $get('type')) // Filter by selected hotel type
                                                         ->whereIn('city_id', $get('../../city_id') ?? []) // Filter by selected cities
                                                         ->pluck('name', 'id')) // Fetch hotels as key-value pairs
-                                                   // ->required()
+                                                    // ->required()
                                                     ->reactive()
                                                     ->default(fn($record) => $record?->hotel_id) // Populate the field during editing
                                                     ->afterStateUpdated(function ($state, callable $set) {
                                                         Log::info('Hotel ID updated:', ['hotel_id' => $state]); // Debug log
                                                         $set('hotelRooms', []); // Clear nested fields when hotel changes
                                                     }),
-                                
+
                                                 // Nested Repeater for hotel rooms
                                                 Repeater::make('hotelRooms')
                                                     ->label('Номера в отеле')
@@ -324,11 +358,11 @@ class TourResource extends Resource
                                                             ->label('Номер')
                                                             ->options(function (Get $get): Collection {
                                                                 $hotelId = $get('../../hotel_id'); // Reference the parent hotel_id
-                                
+
                                                                 if (!$hotelId) {
                                                                     return collect(); // Return an empty collection if no hotel_id is set
                                                                 }
-                                
+
                                                                 // Query rooms and map their types
                                                                 return Room::query()
                                                                     ->where('hotel_id', $hotelId) // Filter rooms by the selected hotel
@@ -336,15 +370,15 @@ class TourResource extends Resource
                                                                     ->get()
                                                                     ->mapWithKeys(fn($room) => [$room->id => $room->roomType->type ?? 'Unknown Type']); // Map room ID to room type
                                                             })
-                                                           // ->required()
+                                                            // ->required()
                                                             ->searchable()
                                                             ->reactive(),
-                                
+
                                                         Forms\Components\TextInput::make('quantity')
                                                             ->label('Количество')
                                                             ->default(1)
                                                             ->numeric(),
-                                                           // ->required(),
+                                                        // ->required(),
                                                     ])
                                                     ->columns(2)
                                                     ->collapsible(),
@@ -352,7 +386,7 @@ class TourResource extends Resource
                                             ->columns(2)
                                             ->collapsible(),
                                     ]),
-                                
+
 
                                 Tabs\Tab::make('Рестораны')
                                     ->label('Рестораны')
@@ -394,7 +428,7 @@ class TourResource extends Resource
                                                             return [$key => $humanReadableLabels[$value] ?? $value]; // Fallback to the original value if not mapped
                                                         });
                                                     })
-                                                    //->required(),
+                                                //->required(),
 
                                             ]),
                                     ]),

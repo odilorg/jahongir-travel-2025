@@ -371,7 +371,7 @@
 
 									<div>
 										<div class="tz-gallery">
-											<h3 class="caption2">Shahrisabz tour Gallery</h3>
+											<h3 class="caption2">{{ $tour->name }} Gallery</h3>
 											<div class="row">
 												@foreach ($tour->tour_photos as $photo)
 														<div class="col-sm-6 col-md-4">
