@@ -416,7 +416,7 @@
 															</tr>
 															<tr>
 																<td>
-																	<a href="{{ Storage::url($tour->tour_file) }}"><img src="{{ asset('images/pdf-download.png') }}" alt="pdf-file-download">Day tour to Shahrisabz</a>
+																	<a href="{{ Storage::url($tour->tour_file) }}"><img src="{{ asset('images/pdf-download.png') }}" alt="pdf-file-download">{{ $tour->name }}</a>
 																</td>
 															</tr>
 														</tbody>
@@ -432,45 +432,39 @@
 								</div>
 								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab" id="tab-itinerary_tab">
 									@if ($hasMultipleDays)
-                                        @if (!empty($tour->tourDays))
-                                        <ul>
-                                            @foreach ($tour->tourDays as $day)
-                                            <div class="interary-item">
-                                                <p><span class="icon-left"></span></p>
-                                                <div class="item_content">
-                                                    <h2><strong>{{ $day->name }}</strong></h2>
-                                                    <p>{{ $day->name }}</p>
-        
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>No exclusions available.</p>
-                                    @endif
-                                    @endif
-                                                                        
-                                    @foreach ($tour->tourDays as $tourDay)
-                                       
-                                        
-                                        @if (!empty($tourDay->itineraries))
-                                            <ul>
-                                                @foreach ($tourDay->itineraries as $itinerary)
-                                                <div class="interary-item">
-                                                    <p><span class="icon-left">{{ $itinerary['time'] }}</span></p>
-                                                    <div class="item_content">
-                                                        <h2><strong>{{ $itinerary['title'] }}</strong></h2>
-                                                        <p>{{ $itinerary['description'] }}</p>
-            
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <p>No itinerary available for this day.</p>
-                                        @endif
+									@foreach ($tour->tourDays as $day)
+									<div class="interary-item">
+										<p><span class="icon-left"></span></p>
+										<div class="item_content">
+											<h2><strong>{{ $day->name }}</strong></h2>
+											<p>{{ $day->description }}</p>
 
-                                    @endforeach
+										</div>
+									</div>
+									@endforeach
+									@else
+									@foreach ($tour->tourDays as $tourDay)                         
+											
+									<ul>
+										@foreach ($tourDay->itineraries as $itin_day)
+										<div class="interary-item">
+											<p><span class="icon-left">{{ $itin_day['time'] }}</span></p>
+											<div class="item_content">
+												<h2><strong>{{ $itin_day['title'] }}</strong></h2>
+												<p>{{ $itin_day['description'] }}</p>
+	
+											</div>
+										</div>
+										@endforeach
+									</ul>
+								
+
+							@endforeach
+									@endif
+									
+									
+									                            
+                                    
                                     
                                         
                                                 
@@ -530,19 +524,23 @@
 						<div class="related tours">
 							<h2>Related Tours</h2>
 							<ul class="tours products wrapper-tours-slider">
+								@foreach ($relatedTours as $relatedTour)
 								<li class="item-tour col-md-4 col-sm-6 product">
 									<div class="item_border item-product">
 										<div class="post_images">
 											<a href="samarkand-city-tour.php">
 
-												<img width="430" height="305" src="images/samarkand-city-tour/giilded-dome-tilla-kori-registan-ensemble.jpg" alt="gilded-dome-tilla-kori" title="Samarkand city tour">
+												<img width="430" height="305" src="{{ Storage::url($relatedTour->tour_photos[0]['photo']) }}" alt="gilded-dome-tilla-kori" title="{{ $relatedTour->tour_photos[0]['photo_description'] }}">
 											</a>
 
 										</div>
 										<div class="wrapper_content">
 											<div class="post_title">
 												<h4>
-													<a href="samarkand-city-tour.php" rel="bookmark">Samarkand history, culture, architecture tour </a>
+													<a href="{{ route('tours.show', ['city_slug' => $relatedTour->city_slug, 'slug' => $relatedTour->slug]) }}" rel="bookmark">
+														{{ $tour->name }}
+													</a>
+													
 												</h4>
 											</div>
 											<span class="post_date">daytour</span>
@@ -556,59 +554,9 @@
 										</div>
 									</div>
 								</li>
-								<li class="item-tour col-md-4 col-sm-6 product">
-									<div class="item_border item-product">
-										<div class="post_images">
-											<a href="yurt-camp-tour.php">
-
-
-												<img width="430" height="305" src="images/430x305/yurt-camp-aydarkul-tour.jpg" alt="yurt-camp-yangigazgan" title="tour to yurt camp">
-											</a>
-
-										</div>
-										<div class="wrapper_content">
-											<div class="post_title">
-												<h4>
-													<a href="yurt-camp-tour.php" rel="bookmark">Adventure to Desert - Yurt Camp</a>
-												</h4>
-											</div>
-											<span class="post_date">2 DAYS 1 NIGHT</span>
-											<div class="description">
-												<p>Experince the nomad life in Kyzylkum Desert and sleep in the Yurt</p>
-											</div>
-										</div>
-										<div class="read_more">
-
-											<a rel="nofollow" href="yurt-camp-tour.php" class="button product_type_tour_phys add_to_cart_button">Read more</a>
-										</div>
-									</div>
-								</li>
-								<li class="item-tour col-md-4 col-sm-6 product">
-									<div class="item_border item-product">
-										<div class="post_images">
-											<a href="nuratau-homestay-3-days.php">
-
-												<img width="430" height="305" src="images/430x305/homestay-nuratau-eco-tour.jpg" alt="horse-riding-nuratau-mountains" title="uzbekistan homestay in nuratau">
-											</a>
-
-										</div>
-										<div class="wrapper_content">
-											<div class="post_title">
-												<h4>
-													<a href="nuratau-homestay-3-days.php" rel="bookmark">Experience homestay in Nuratau</a>
-												</h4>
-											</div>
-											<span class="post_date">3 DAYS 2 NIGHTS</span>
-											<div class="description">
-												<p>If you want to feel the rural life of Uzbek people then the remote villages in Jizzakh region are the best options</p>
-											</div>
-										</div>
-										<div class="read_more">
-
-											<a rel="nofollow" href="nuratau-homestay-3-days.php" class="button product_type_tour_phys add_to_cart_button">Read more</a>
-										</div>
-									</div>
-								</li>
+								@endforeach
+								
+								
 							</ul>
 						</div>
 					</div>

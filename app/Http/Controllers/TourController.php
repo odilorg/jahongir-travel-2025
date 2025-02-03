@@ -8,15 +8,28 @@ use App\Models\Tour;
 class TourController extends Controller
 {
     public function show($citySlug, $tourSlug)
-    {
-        // Retrieve the tour where city_slug and slug match
-        // Retrieve the tour with its relationships
+{
+    // Retrieve the requested tour with its relationships
     $tour = Tour::where('city_slug', $citySlug)
-    ->where('slug', $tourSlug)
-    ->with(['categories', 'tourDays']) // Load relationships
-    ->firstOrFail();
+        ->where('slug', $tourSlug)
+        ->with(['categories', 'tourDays']) // Load relationships
+        ->firstOrFail();
+
+    // Determine if the tour has multiple days
     $hasMultipleDays = $tour->tourDays->count() > 1;
-return view('tours.show', compact('tour', 'hasMultipleDays'));
-    }
+
+    // Fetch related tours (e.g., by the same city or category)
+    $relatedTours = Tour::where('tours.id', '!=', $tour->id) // Use 'tours.id' to avoid ambiguity
+    ->where('city_slug', $citySlug)
+    ->orWhereHas('categories', function ($query) use ($tour) {
+        $query->whereIn('tour_categories.id', $tour->categories->pluck('id')); // Use 'tour_categories.id'
+    })
+    ->limit(5)
+    ->get();
+
+
+    // Pass the data to the view
+    return view('tours.show', compact('tour', 'hasMultipleDays', 'relatedTours'));
 }
 
+}
