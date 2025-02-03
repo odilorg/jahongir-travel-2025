@@ -13,7 +13,7 @@ class AllToursController extends Controller
             ->get();
 
              // Pass the data to the view
-    return view('tours.index', compact('allTours'));
+    return view('tours.index', compact('allTours', 'citySlug'));
 
     }
 }
