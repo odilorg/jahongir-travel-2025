@@ -53,35 +53,8 @@
                         <h4>Have a question?</h4>
                         <div role="form" class="wpcf7">
                             <div class="screen-reader-response"></div>
-                            <form action="" method="post" class="wpcf7-form" >
-                                <div class="form-contact">
-                                    <div class="row-1x">
-                                        <div class="col-sm-6">
-                                                <span class="wpcf7-form-control-wrap your-name">
-                                                    <input type="text" name="name" value="" size="40" class="wpcf7-form-control" placeholder="Your name*" required>
-                                                </span>
-                                        </div>
-                                        <div class="col-sm-6">
-                                                <span class="wpcf7-form-control-wrap your-email">
-                                                    <input type="email" name="email" value="" size="40" class="wpcf7-form-control" placeholder="Email*" required>
-                                                </span>
-                                        </div>
-                                    </div>
-                                    <div class="form-contact-fields">
-                                            <span class="wpcf7-form-control-wrap your-subject">
-                                                <input type="text" name="subject" value="" size="40" class="wpcf7-form-control" placeholder="Subject" required>
-                                            </span>
-                                    </div>
-                                    <div class="form-contact-fields">
-                                        <span class="wpcf7-form-control-wrap your-message">
-                                            <textarea name="message" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea" placeholder="Message"></textarea>
-                                             </span><br>
-                                             <div class="g-recaptcha" data-sitekey="6Ld3L10aAAAAAPAKJ-94qhAv-m01T2fYZtX73nEO"></div>
-                                        <input type="submit" name="submit" value="Submit" class="wpcf7-form-control wpcf7-submit">
-                                    </div>
-                                </div>
-                                
-                            </form>
+                            <livewire:contact-form />
+
                             <div class="status"> 
                         
                             </div>
