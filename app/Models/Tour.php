@@ -24,6 +24,8 @@ class Tour extends Model
         'start_from_city',
         'city_slug',
         'location',
+        'country_slug',
+        'country',
         
     ];
 

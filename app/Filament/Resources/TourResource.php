@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 use Filament\Forms\Components\Tabs;
 use Illuminate\Support\Facades\Log;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
@@ -49,17 +50,44 @@ class TourResource extends Resource
                             ->required()
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                        TextInput::make('slug')
+                            TextInput::make('slug')
                             ->readOnly(),
-
+                          //  ->hidden(),
+                        
+                        Radio::make('tour_type')
+                            ->label('Tour Type')
+                            ->options([
+                                'country_tour' => 'Country Tour',
+                                'city_tour' => 'City Tour',
+                            ])
+                            ->live(), // Make it reactive to updates
+                        
+                        TextInput::make('country')
+                            ->label('Страна')
+                            ->live(onBlur: true)
+                            ->required()
+                            ->visible(fn (callable $get) => $get('tour_type') === 'country_tour')
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('country_slug', Str::slug($state)))
+                            ,
+                        
+                        TextInput::make('country_slug')
+                            ->label('Country Slug')
+                           // ->hidden()
+                            ->readOnly()
+                            ->visible(fn (callable $get) => $get('tour_type') === 'country_tour'),
+                        
                         TextInput::make('start_from_city')
                             ->label('Город отправления')
-                            ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('city_slug', Str::slug($state))),
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('city_slug', Str::slug($state)))
+                            ->visible(fn (callable $get) => $get('tour_type') === 'city_tour'),
+                        
                         TextInput::make('city_slug')
                             ->label('City Slug')
-                            ->readOnly(),
+                            //->hidden()
+                            ->readOnly()
+                            ->visible(fn (callable $get) => $get('tour_type') === 'city_tour'),
+                        
                         Select::make('categories')
                             ->label('Категории Тура')
                             ->relationship('categories', 'name')
