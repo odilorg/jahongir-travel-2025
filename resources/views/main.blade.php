@@ -59,7 +59,9 @@
                             <li class="item-tour col-md-4 col-sm-6 product">
                                 <div class="item_border item-product">
                                     <div class="post_images">
-                                        <a href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}">
+                                        <a href="{{ $tour->city_slug 
+                                            ? route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) 
+                                            : route('tours.country_tour.show', ['country_slug' => $tour->country_slug, 'slug' => $tour->slug]) }}">
                                             <span class="price">${{ $tour->tour_prices[2]['price']  }}.00</span>
                                             <img width="430" height="305"
                                                 src="{{ Storage::url($tour->tour_photos[0]['photo']) }}"
@@ -71,8 +73,11 @@
                                     <div class="wrapper_content">
                                         <div class="post_title">
                                             <h4>
-                                                <a href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}"
-                                                    rel="bookmark">{{ $tour->name }}</a>
+                                                <a href="{{ $tour->city_slug 
+                                                    ? route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) 
+                                                    : route('tours.country_tour.show', ['country_slug' => $tour->country_slug, 'slug' => $tour->slug]) }}">
+                                            {{ $tour->name }}
+                                        </a>
                                             </h4>
                                         </div>
                                         <span class="post_date">{{ $tour->tour_duration }}</span>
@@ -88,10 +93,11 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o"></i>
                                         </div>
-                                        <a rel="nofollow"
-                                            href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}"
-                                            class="button product_type_tour_phys add_to_cart_button">Read
-                                            more</a>
+                                        <a href="{{ $tour->city_slug 
+                                            ? route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) 
+                                            : route('tours.country_tour.show', ['country_slug' => $tour->country_slug, 'slug' => $tour->slug]) }}">
+                                    Read more..
+                                </a>
                                     </div>
                                 </div>
                             </li> 
