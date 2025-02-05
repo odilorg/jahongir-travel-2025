@@ -37,7 +37,7 @@
                 <span class="icon-bar"></span>
             </div>
             <div class="width-logo sm-logo">
-                <a href="../index.php" title="Jahongir Travel" rel="home">
+                <a href="/" title="Jahongir Travel" rel="home">
                     <img src="../images/logo_brown.png" alt="Logo" width="474" height="130"
                         class="logo_transparent_static">
                     <img src="../images/logo_sticky.png" alt="Sticky logo" width="474" height="130"
@@ -47,20 +47,18 @@
             <nav class="width-navigation">
                 <ul class="nav navbar-nav menu-main-menu side-nav" id="mobile-demo">
                     <li>
-                        <a href="../aboutus.php">About Us</a>
+                        <a href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="menu-item-has-children current-menu-parent">
                         <a href="index.php">Tours</a>
                         <ul class="sub-menu">
-                            <li><a href="../tours-from-khiva/tour-from-khiva-ancient-fortresses.php">Tours from
-                                    Khiva</a></li>
-                            <li><a href="../tours-from-samarkand/index.php">Tours from Samarkand</a></li>
-                            <li><a href="../tours-from-bukhara/index.php">Tours from Bukhara</a>
+                            <li><a href="/tours-from-khiva">Tours from Khiva</a></li>
+                            <li><a href="/tours-from-samarkand">Tours from Samarkand</a></li>
+                            <li><a href="/tours-from-bukhara">Tours from Bukhara</a>
 
                             </li>
-                            <li><a href="../uzbekistan-tours/index.php">Uzbekistan tours</a>
-                            <li><a href="../tajikistan-tours/seven-lakes-tajikistan-tour.php">Tajikistan
-                                    tours</a>
+                            <li><a href="/uzbekistan-tours">Uzbekistan tours</a>
+                            <li><a href="/tajikistan-tours">Tajikistan tours</a>
 
                             </li>
 
@@ -69,7 +67,7 @@
 
 
 
-                    <li><a href="../contact.php">Contact US</a></li>
+                    <li><a href="{{ route('contact') }}">Contact US</a></li>
 
                 </ul>
             </nav>

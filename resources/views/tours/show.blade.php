@@ -413,7 +413,7 @@
 										<li class="item-tour col-md-4 col-sm-6 product">
 										<div class="item_border item-product">
 											<div class="post_images">
-												<a href="samarkand-city-tour.php">
+												<a href="{{ route('tours.show', ['city_slug' => $relatedTour->city_slug, 'slug' => $relatedTour->slug]) }}">
 
 													<img width="430" height="305"
 														src="{{ Storage::url($relatedTour->tour_photos[0]['photo']) }}"
@@ -427,20 +427,19 @@
 													<h4>
 														<a href="{{ route('tours.show', ['city_slug' => $relatedTour->city_slug, 'slug' => $relatedTour->slug]) }}"
 															rel="bookmark">
-															{{ $tour->name }}
+															{{ $relatedTour->name }}
 														</a>
 
 													</h4>
 												</div>
 												<span class="post_date">daytour</span>
 												<div class="description">
-													<p>Immerse yourself in ancient history and be amazed by the
-														magnificient monuments of the legendary city Samarkand. </p>
+													<p>{{ \Illuminate\Support\Str::limit($relatedTour->description, 250, '...') }} </p>
 												</div>
 											</div>
 											<div class="read_more">
 
-												<a rel="nofollow" href="samarkand-city-tour.php"
+												<a rel="nofollow" href="{{ route('tours.show', ['city_slug' => $relatedTour->city_slug, 'slug' => $relatedTour->slug]) }}"
 													class="button product_type_tour_phys add_to_cart_button">Read
 													more</a>
 											</div>

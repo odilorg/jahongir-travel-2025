@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About Us') 
+@section('title', 'Jahongir travel offers you the hiking, culture, history, architecture and adventure tours in Uzbekistan') 
 <!-- Now the title is 'About Us' -->
 
 @section('content')
@@ -60,7 +60,7 @@
                                 <div class="item_border item-product">
                                     <div class="post_images">
                                         <a href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}">
-                                            <span class="price">From $950.00</span>
+                                            <span class="price">${{ $tour->tour_prices[2]['price']  }}.00</span>
                                             <img width="430" height="305"
                                                 src="{{ Storage::url($tour->tour_photos[0]['photo']) }}"
                                                 alt="uzbekistan-tour-best-of-uzbekistan-in-10-days"
@@ -71,11 +71,11 @@
                                     <div class="wrapper_content">
                                         <div class="post_title">
                                             <h4>
-                                                <a href="uzbekistan-tours/best-of-uzbekistan-in-10-days.php"
+                                                <a href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}"
                                                     rel="bookmark">{{ $tour->name }}</a>
                                             </h4>
                                         </div>
-                                        <span class="post_date">10 days</span>
+                                        <span class="post_date">{{ $tour->tour_duration }}</span>
                                         <div class="description">
                                             <p>{{ \Illuminate\Support\Str::limit($tour->description, 250, '...') }}</p>
                                         </div>
@@ -89,7 +89,7 @@
                                             <i class="fa fa-star-o"></i>
                                         </div>
                                         <a rel="nofollow"
-                                            href="uzbekistan-tours/best-of-uzbekistan-in-10-days.php"
+                                            href="{{ route('tours.show', ['city_slug' => $tour->city_slug, 'slug' => $tour->slug]) }}"
                                             class="button product_type_tour_phys add_to_cart_button">Read
                                             more</a>
                                     </div>

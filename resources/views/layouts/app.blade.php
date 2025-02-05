@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" prefix="og: http://ogp.me/ns#">
-
-<!-- Mirrored from html.physcode.com/travel/single-tour.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 17 Mar 2017 04:57:29 GMT -->
+<html lang="en-US">
 
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
