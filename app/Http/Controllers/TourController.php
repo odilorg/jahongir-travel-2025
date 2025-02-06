@@ -19,13 +19,16 @@ class TourController extends Controller
     $hasMultipleDays = $tour->tourDays->count() > 1;
 
     // Fetch related tours (e.g., by the same city or category)
-    $relatedTours = Tour::where('tours.id', '!=', $tour->id) // Use 'tours.id' to avoid ambiguity
-    ->where('city_slug', $citySlug)
-    ->orWhereHas('categories', function ($query) use ($tour) {
-        $query->whereIn('tour_categories.id', $tour->categories->pluck('id')); // Use 'tour_categories.id'
+    $relatedTours = Tour::where('id', '!=', $tour->id) // Avoid ambiguity by using 'id' only
+    ->where(function ($query) use ($tour, $citySlug) {
+        $query->where('city_slug', $citySlug)
+              ->whereHas('categories', function ($query) use ($tour) {
+                  $query->whereIn('tour_categories.id', $tour->categories->pluck('id'));
+              });
     })
-    ->limit(5)
+    ->limit(3)
     ->get();
+
 
 
     // Pass the data to the view

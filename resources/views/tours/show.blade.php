@@ -135,18 +135,18 @@
 											</div>
 										</div>
 										<div class="panel">
-											<div class="panel-heading" role="tab" id="heading_1485138121986">
+											<div class="panel-heading" role="tab" id="heading_1485138121987">
 												<h4 class="panel-title">
 													<a class="collapsed" role="button" data-toggle="collapse"
 														data-parent="#travel-tips"
-														href="#collapse_1485138121986" aria-expanded="false"
+														href="#collapse_1485138121987" aria-expanded="false"
 														aria-controls="collapse_1485138121986">
 														Jahongir Travel offers the following services
 													</a>
 												</h4>
 											</div>
-											<div id="collapse_1485138121986" class="panel-collapse collapse"
-												role="tabpanel" aria-labelledby="heading_1485138121986">
+											<div id="collapse_1485138121987" class="panel-collapse collapse"
+												role="tabpanel" aria-labelledby="heading_1485138121987">
 												<div class="content-inner">
 													<div class="row">
 														<div class="col-sm-2">
@@ -434,7 +434,7 @@
 												</div>
 												<span class="post_date">daytour</span>
 												<div class="description">
-													<p>{{ \Illuminate\Support\Str::limit($relatedTour->description, 250, '...') }} </p>
+													<p>{{ \Illuminate\Support\Str::limit($relatedTour->description, 100, '...') }} </p>
 												</div>
 											</div>
 											<div class="read_more">
