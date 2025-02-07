@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GuideResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GuideResource\RelationManagers;
+use App\Filament\Resources\GuideResource\RelationManagers\BookingExpensesRelationManager;
 
 class GuideResource extends Resource
 {
@@ -173,7 +174,7 @@ class GuideResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            BookingExpensesRelationManager::class
         ];
     }
 

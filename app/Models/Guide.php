@@ -38,6 +38,11 @@ class Guide extends Model
         return $this->belongsToMany(SpokenLanguage::class)->withTimestamps();
     }
 
+    public function bookingExpenses()
+{
+    return $this->hasMany(BookingExpense::class);
+}
+
 
     // public function pricings()
     // {
