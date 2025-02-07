@@ -4,19 +4,23 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Booking;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Models\TourPayment;
+use App\Models\BookingPayment;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TourPaymentResource\Pages;
+use App\Filament\Resources\BookingPaymentResource\Pages;
 use App\Filament\Resources\TourPaymentResource\RelationManagers;
 
-class TourPaymentResource extends Resource
+class BookingPaymentResource extends Resource
 {
-    protected static ?string $model = TourPayment::class;
+    protected static ?string $model = BookingPayment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -24,21 +28,41 @@ class TourPaymentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('tour_id')
-                    ->required()
-                    ->relationship('tour', 'name'),
+
+
+
                 Forms\Components\Select::make('customer_id')
                     ->required()
-                    ->relationship('customer', 'name'),
+                    ->relationship('customer', 'name')
+                    ->live(), // Add reactive to update booking options when customer changes
+
+                Forms\Components\Select::make('booking_id')
+                     ->label('Booked Tour Name')
+                    ->required()
+                    ->options(function (callable $get) {
+                        $customerId = $get('customer_id');
+
+                        if (!$customerId) {
+                            return [];
+                        }
+
+                        return Booking::where('customer_id', $customerId)
+                            ->with('tour') // Eager load the tour relationship
+                            ->get()
+                            ->pluck('tour.name', 'id'); // Use tour name from the related model
+                    })
+                    ->searchable() // Optional: if you want search functionality
+                    ->preload(), // Optional: if you want to preload options
+
                 Forms\Components\Select::make('payment_method')
-                ->options([
-                    'Cash' => 'Cash',
-                    'Card' => 'Card',
-                    'Bank Transfer' => 'Bank Transfer',
-                    'Paypal' => 'Paypal',
-                    'Stripe' => 'Stripe',
-                    'Other' => 'Other',
-                ])
+                    ->options([
+                        'Cash' => 'Cash',
+                        'Card' => 'Card',
+                        'Bank Transfer' => 'Bank Transfer',
+                        'Paypal' => 'Paypal',
+                        'Stripe' => 'Stripe',
+                        'Other' => 'Other',
+                    ])
                     ->required(),
                 Forms\Components\Select::make('payment_status')
                     ->required()
@@ -47,7 +71,7 @@ class TourPaymentResource extends Resource
                         'Paid' => 'Paid',
                         'Partial' => 'Partial',
                     ]),
-                    Forms\Components\TextInput::make('amount')
+                Forms\Components\TextInput::make('amount')
                     ->required()
                     ->numeric(),
             ]);
@@ -65,7 +89,7 @@ class TourPaymentResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('tour.name')
+                Tables\Columns\TextColumn::make('booking.tour.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer.name')
                     ->sortable(),
@@ -73,14 +97,14 @@ class TourPaymentResource extends Resource
                 //     ->searchable(),
                 SelectColumn::make('payment_method')
                     ->options([
-                       'Cash' => 'Cash',
-                    'Card' => 'Card',
-                    'Bank Transfer' => 'Bank Transfer',
-                    'Paypal' => 'Paypal',
-                    'Stripe' => 'Stripe',
-                    'Other' => 'Other',
+                        'Cash' => 'Cash',
+                        'Card' => 'Card',
+                        'Bank Transfer' => 'Bank Transfer',
+                        'Paypal' => 'Paypal',
+                        'Stripe' => 'Stripe',
+                        'Other' => 'Other',
                     ]),
-                    SelectColumn::make('payment_status')
+                SelectColumn::make('payment_status')
                     ->options([
                         'Pending' => 'Pending',
                         'Paid' => 'Paid',
@@ -113,9 +137,9 @@ class TourPaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTourPayments::route('/'),
-            'create' => Pages\CreateTourPayment::route('/create'),
-            'edit' => Pages\EditTourPayment::route('/{record}/edit'),
+            'index' => Pages\ListBookingPayments::route('/'),
+            'create' => Pages\CreateBookingPayment::route('/create'),
+            'edit' => Pages\EditBookingPayment::route('/{record}/edit'),
         ];
     }
 }
