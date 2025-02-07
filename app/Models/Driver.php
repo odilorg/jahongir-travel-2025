@@ -16,4 +16,9 @@ class Driver extends Model
         'license_image',
         'profile_image',
     ];
+
+    public function bookingExpenses()
+    {
+        return $this->hasMany(BookingExpense::class);
+    }
 }

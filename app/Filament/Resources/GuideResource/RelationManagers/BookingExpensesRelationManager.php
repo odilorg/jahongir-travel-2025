@@ -23,25 +23,25 @@ class BookingExpensesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-        
-
-Select::make('booking_id')
-    ->label('Booked Tour Name')
-    ->required()
-    ->options(function () {
-        $guideId = $this->ownerRecord->id; // Get guide ID from RelationManager context
-
-        return Booking::with('tour') // Load tour relationship
-            ->where('guide_id', $guideId) // Filter only this guide's bookings
-            ->get()
-            ->pluck('tour.name', 'id'); // Display tour name, store booking ID
-    })
-    ->searchable()
-    ->preload()
-    ->live(), // Ensure it updates dynamically
 
 
-               
+                Select::make('booking_id')
+                    ->label('Booked Tour Name')
+                    ->required()
+                    ->options(function () {
+                        $guideId = $this->ownerRecord->id; // Get guide ID from RelationManager context
+
+                        return Booking::with('tour') // Load tour relationship
+                            ->where('guide_id', $guideId) // Filter only this guide's bookings
+                            ->get()
+                            ->pluck('tour.name', 'id'); // Display tour name, store booking ID
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->live(), // Ensure it updates dynamically
+
+
+
 
                 Select::make('payment_method')
                     ->label('Payment Method')
@@ -76,23 +76,23 @@ Select::make('booking_id')
             ->recordTitleAttribute('amount')
             ->columns([
                 Tables\Columns\TextColumn::make('booking.tour.name')
-                ->sortable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('amount'),
                 SelectColumn::make('payment_method')
-                ->options([
-                   'Cash' => 'Cash',
-                'Card' => 'Card',
-                'Bank Transfer' => 'Bank Transfer',
-                'Paypal' => 'Paypal',
-                'Stripe' => 'Stripe',
-                'Other' => 'Other',
-                ]),
+                    ->options([
+                        'Cash' => 'Cash',
+                        'Card' => 'Card',
+                        'Bank Transfer' => 'Bank Transfer',
+                        'Paypal' => 'Paypal',
+                        'Stripe' => 'Stripe',
+                        'Other' => 'Other',
+                    ]),
                 SelectColumn::make('payment_status')
-                ->options([
-                    'Pending' => 'Pending',
-                    'Paid' => 'Paid',
-                    'Partial' => 'Partial',
-                ]),
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Paid' => 'Paid',
+                        'Partial' => 'Partial',
+                    ]),
             ])
             ->filters([
                 //
