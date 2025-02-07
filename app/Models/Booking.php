@@ -46,6 +46,16 @@ class Booking extends Model
     {
         return $this->belongsTo(Restaurant::class);
     }
+    public function bookingPayments()
+    {
+        return $this->hasMany(BookingPayment::class);
+    }
 
+    public function bookingPaymentsMatching()
+{
+    return $this->hasMany(BookingPayment::class)
+        ->where('tour_id', $this->tour_id)
+        ->where('customer_id', $this->customer_id);
+}
    
 }

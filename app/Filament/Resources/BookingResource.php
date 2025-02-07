@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BookingResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -40,6 +42,8 @@ class BookingResource extends Resource
                         'complete' => 'Complete',
                         'cancelled' => 'Cancelled',
                     ]),
+
+
                 Forms\Components\Select::make('driver_id')
                    // ->numeric()
                     ->relationship('driver', 'name'),
@@ -70,6 +74,25 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('tour.name')
                     //numeric()
                     ->sortable(),
+                    SelectColumn::make('booking_status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'ongoing' => 'Ongoing',
+                        'complete' => 'Complete',
+                        'cancelled' => 'Cancelled',
+                    ]),
+// A single combined column
+Tables\Columns\TextColumn::make('tour_customer_payment')
+->label('Payment Status')
+->getStateUsing(function (Booking $record) {
+   
+    $paymentStatus = $record->bookingPayments()->latest()->first()?->payment_status ?? 'No Payment';
+
+    return " {$paymentStatus}";
+})
+->sortable()
+->searchable(),
+    
                 Tables\Columns\TextColumn::make('customer.name')
                    // ->numeric()
                     ->sortable(),
