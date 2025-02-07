@@ -12,4 +12,9 @@ class Customer extends Model
         'phone',
         'address',
     ];
+
+    public function bookingPayments()
+    {
+        return $this->hasMany(BookingPayment::class);
+    }
 }
