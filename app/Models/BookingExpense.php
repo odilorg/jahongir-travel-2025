@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TourExpense extends Model
+class BookingExpense extends Model
 {
-    protected $fillable = ['tour_id', 'guide_id', 'driver_id', 'payment_method', 'payment_status', 'amount'];
+    protected $fillable = ['booking_id', 'guide_id', 'driver_id', 'payment_method', 'payment_status', 'amount'];
 
-    public function tour()
+    public function booking()
     {
-        return $this->belongsTo(Tour::class);
+        return $this->belongsTo(Booking::class);
     }
 
     public function guide()
